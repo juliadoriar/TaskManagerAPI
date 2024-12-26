@@ -2,6 +2,10 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using TaskManagerAPI.Data;
+using TaskManagerAPI.Interfaces;
+using TaskManagerAPI.Services;
+using SoapCore;
+using System.ServiceModel;
 
 
 public class Program
@@ -21,10 +25,25 @@ public class Program
             throw new ArgumentNullException("Jwt:Secret", "JWT Secret key is not configured in appsettings.json");
         }
 
+        // Get the connection string from appsettings.json
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            throw new ArgumentNullException("ConnectionStrings:DefaultConnection", "Database connection string is not configured in appsettings.json");
+        }
 
         // Add services to the container.
+        builder.Services.AddScoped<TaskService>(provider =>
+            new TaskService(connectionString, provider.GetRequiredService<EmailService>())
+        );
         builder.Services.AddControllers();
         builder.Services.AddSingleton<Database>();
+        builder.Services.AddSingleton<EmailService>();
+        builder.Services.AddSingleton<IUserService>(provider =>
+        {
+            var configuration = provider.GetRequiredService<IConfiguration>();
+            return new UserService(configuration);
+        });
 
         // Swagger setup
         builder.Services.AddEndpointsApiExplorer();
@@ -50,6 +69,9 @@ public class Program
         });
 
         var app = builder.Build();
+
+        // Adiciona o middleware SoapCore usando conversão explícita para evitar ambiguidade
+        ((IApplicationBuilder)app).UseSoapEndpoint<IUserService>("/UserService.svc", new BasicHttpBinding(), SoapSerializer.XmlSerializer);
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

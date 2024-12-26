@@ -7,12 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CoreWCF.ConfigurationManager" Version="1.6.0" />
+    <PackageReference Include="CoreWCF.Http" Version="1.6.0" />
+    <PackageReference Include="CoreWCF.Primitives" Version="1.6.0" />
     <PackageReference Include="MailKit" Version="4.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
+    <PackageReference Include="SoapCore-net5.0" Version="1.1.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
     <PackageReference Include="System.ServiceModel.Http" Version="8.1.1" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.1" />
   </ItemGroup>
 
 </Project>
