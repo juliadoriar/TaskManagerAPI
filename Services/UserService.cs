@@ -5,14 +5,12 @@ using TaskManagerAPI.Models; // Para a classe User
 
 namespace TaskManagerAPI.Services
 {
-    // A classe UserService implementa a interface IUserService
-    // e é responsável por gerenciar as operações relacionadas aos usuários no banco de dados.
     public class UserService : IUserService
     {
         private readonly string _connectionString; // Variável para armazenar a string de conexão com o banco de dados
         private readonly string _jwtSecret; // Variável para armazenar a chave secreta para gerar tokens JWT
 
-        // Construtor que recebe a configuração da aplicação e inicializa os campos privados
+        // Construtor
         public UserService(IConfiguration configuration)
         {
             // Obtém a string de conexão a partir da configuração
@@ -24,8 +22,7 @@ namespace TaskManagerAPI.Services
                 ?? throw new ArgumentNullException("Jwt:Secret", "JWT Secret key is not configured");
         }
 
-        // Método para registrar um novo usuário no banco de dados
-        public bool RegisterUser(User user)
+       public bool RegisterUser(User user)
         {
             using (var connection = new SqlConnection(_connectionString)) // Abre uma conexão com o banco de dados
             {
@@ -41,7 +38,6 @@ namespace TaskManagerAPI.Services
             }
         }
 
-        // Método para autenticar um usuário utilizando e-mail e senha
         public string LoginUser(string email, string password)
         {
             using (var connection = new SqlConnection(_connectionString)) // Abre a conexão com o banco de dados
@@ -72,7 +68,6 @@ namespace TaskManagerAPI.Services
             return "Invalid email or password.";
         }
 
-        // Método para obter os dados de um usuário com base no ID
         public User GetUser(int id)
         {
             using (var connection = new SqlConnection(_connectionString)) // Abre a conexão com o banco de dados
@@ -102,7 +97,6 @@ namespace TaskManagerAPI.Services
             return null!;
         }
 
-        // Método para listar todos os usuários registrados
         public IEnumerable<User> ListUsers()
         {
             var users = new List<User>(); // Cria uma lista para armazenar os usuários
@@ -110,7 +104,7 @@ namespace TaskManagerAPI.Services
             using (var connection = new SqlConnection(_connectionString)) // Abre a conexão com o banco de dados
             {
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM Users", connection); // Prepara o comando SQL para listar todos os usuários
+                var command = new SqlCommand("SELECT * FROM Users", connection); 
 
                 using (var reader = command.ExecuteReader()) // Executa o comando e lê os resultados
                 {
@@ -131,14 +125,14 @@ namespace TaskManagerAPI.Services
             return users;
         }
 
-        // Método para atualizar os dados de um usuário existente
         public bool UpdateUser(User user)
         {
             using (var connection = new SqlConnection(_connectionString)) // Abre a conexão com o banco de dados
             {
                 connection.Open();
                 // Prepara o comando SQL para atualizar os dados do usuário
-                var command = new SqlCommand("UPDATE Users SET Name = @Name, Email = @Email, Password = @Password WHERE Id = @Id", connection);
+                var command = new SqlCommand("UPDATE Users SET Name = @Name, Email = @Email, Password = " +
+                    "@Password WHERE Id = @Id", connection);
                 // Adiciona os parâmetros necessários ao comando SQL
                 command.Parameters.AddWithValue("@Id", user.Id);
                 command.Parameters.AddWithValue("@Name", user.Name);
@@ -149,7 +143,6 @@ namespace TaskManagerAPI.Services
             }
         }
 
-        // Método para excluir um usuário com base no ID
         public bool DeleteUser(int id)
         {
             using (var connection = new SqlConnection(_connectionString)) // Abre a conexão com o banco de dados

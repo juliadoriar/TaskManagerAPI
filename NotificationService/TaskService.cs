@@ -25,7 +25,8 @@ namespace TaskManagerAPI.NotificationService
 
                 // Query para pegar tarefas com vencimento nos próximos 2 dias
                 var command = new SqlCommand(
-                    "SELECT u.Email, t.Title, t.DueDate FROM Tasks t JOIN Users u ON t.UserId = u.Id WHERE DATEDIFF(day, GETDATE(), t.DueDate) <= 2 AND t.Status != 'Completed'",
+                    "SELECT u.Email, t.Title, t.DueDate FROM Tasks t JOIN Users u ON t.UserId = u.Id WHERE DATEDIFF(day, " +
+                    "GETDATE(), t.DueDate) <= 2 AND t.Status != 'Completed'",
                     connection);
 
                 using (var reader = command.ExecuteReader())
@@ -46,7 +47,8 @@ namespace TaskManagerAPI.NotificationService
             foreach (var task in tasksToNotify)
             {
                 var subject = "Task Reminder: Upcoming Due Date!";
-                var body = $"<p>Hello,</p><p>Your task <strong>{task.TaskName}</strong> is due on <strong>{task.DueDate:dd/MM/yyyy}</strong>.</p>";
+                var body = $"<p>Hello,</p><p>Your task <strong>{task.TaskName}</strong> is due on" +
+                    $" <strong>{task.DueDate:dd/MM/yyyy}</strong>.</p>";
 
                 // Enviar o e-mail para o usuário
                 var emailSent = await _emailService.SendEmailAsync(task.UserEmail, subject, body);
