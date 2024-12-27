@@ -1,7 +1,7 @@
 ﻿using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace TaskManagerAPI.Services
+namespace TaskManagerAPI.NotificationService
 {
     public class EmailService
     {

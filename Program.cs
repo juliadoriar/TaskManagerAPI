@@ -6,6 +6,7 @@ using TaskManagerAPI.Interfaces;
 using TaskManagerAPI.Services;
 using SoapCore;
 using System.ServiceModel;
+using TaskManagerAPI.NotificationService;
 
 
 public class Program

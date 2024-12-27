@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/TaskManagerAPI2024/apis/TaskManagerAPI",
+      "type": "apis.azure"
+    }
+  }
+}

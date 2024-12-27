@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using TaskModel = TaskManagerAPI.Models.Task;
 
-namespace TaskManagerAPI.Services
+namespace TaskManagerAPI.NotificationService
 {
     public class TaskService
     {
